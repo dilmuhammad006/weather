@@ -5,6 +5,8 @@ import { GetWeather } from "../../hooks";
 import toast from "react-hot-toast";
 import { WeatherCard } from "../../components";
 import { BackroundImage } from "../../types";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Home = () => {
   const [language, setLanguage] = useState<Lang>(Lang.uz);
@@ -20,8 +22,6 @@ const Home = () => {
     return null;
   }
 
-  if (isLoading) return <p className="center">Loading...</p>;
-
   return (
     <div
       className={styles["home"]}
@@ -29,38 +29,58 @@ const Home = () => {
     >
       <nav className="container">
         <div>
-          <img src="/weather.logo.png" alt="" />
-          <span>Weather</span>
+          {isLoading ? (
+            <Skeleton width={100} height={40} />
+          ) : (
+            <>
+              <img src="/weather.logo.png" alt="" />
+              <span>Weather</span>
+            </>
+          )}
         </div>
-        <h1>{location}</h1>
+        <h1>{isLoading ? <Skeleton width={150} /> : location}</h1>
         <div>
-          <select
-            name="location"
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value as Location)}
-          >
-            {Object.values(Location).map((val) => (
-              <option key={val} value={val}>
-                {val}
-              </option>
-            ))}
-          </select>
+          {isLoading ? (
+            <>
+              <Skeleton width={120} height={35} />
+              <Skeleton width={120} height={35} style={{ marginLeft: "8px" }} />
+            </>
+          ) : (
+            <>
+              <select
+                name="location"
+                id="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value as Location)}
+              >
+                {Object.values(Location).map((val) => (
+                  <option key={val} value={val}>
+                    {val}
+                  </option>
+                ))}
+              </select>
 
-          <select
-            name="lang"
-            id="lang"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as Lang)}
-          >
-            <option value={Lang.uz}>uz</option>
-            <option value={Lang.eng}>eng</option>
-            <option value={Lang.ru}>ru</option>
-          </select>
+              <select
+                name="lang"
+                id="lang"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as Lang)}
+              >
+                <option value={Lang.uz}>O'zbek</option>
+                <option value={Lang.eng}>English</option>
+                <option value={Lang.ru}>Русский</option>
+              </select>
+            </>
+          )}
         </div>
       </nav>
+
       <div className="container">
-        <WeatherCard data={data.forecast.forecastday} />
+        {isLoading ? (
+          <Skeleton height={100} count={7} style={{ marginBottom: "1rem" }} />
+        ) : (
+          <WeatherCard data={data.forecast.forecastday} />
+        )}
       </div>
     </div>
   );

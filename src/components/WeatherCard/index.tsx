@@ -1,6 +1,5 @@
 import type { ForecastDay } from "../../types";
 import styles from "./weather.module.css";
-
 interface DataProps {
   data: ForecastDay[];
 }

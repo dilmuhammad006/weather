@@ -29,55 +29,47 @@ const Home = () => {
     >
       <nav className="container">
         <div>
-          {isLoading ? (
-            <Skeleton width={100} height={40} />
-          ) : (
-            <>
-              <img src="/weather.logo.png" alt="" />
-              <span>Weather</span>
-            </>
-          )}
+          <>
+            <img src="/weather.logo.png" alt="" />
+            <span>Weather</span>
+          </>
         </div>
-        <h1>{isLoading ? <Skeleton width={150} /> : location}</h1>
+        <h1>{location}</h1>
         <div>
-          {isLoading ? (
-            <>
-              <Skeleton width={120} height={35} />
-              <Skeleton width={120} height={35} style={{ marginLeft: "8px" }} />
-            </>
-          ) : (
-            <>
-              <select
-                name="location"
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value as Location)}
-              >
-                {Object.values(Location).map((val) => (
-                  <option key={val} value={val}>
-                    {val}
-                  </option>
-                ))}
-              </select>
+          <select
+            name="location"
+            id="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value as Location)}
+          >
+            {Object.values(Location).map((val) => (
+              <option key={val} value={val}>
+                {val}
+              </option>
+            ))}
+          </select>
 
-              <select
-                name="lang"
-                id="lang"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as Lang)}
-              >
-                <option value={Lang.uz}>O'zbek</option>
-                <option value={Lang.eng}>English</option>
-                <option value={Lang.ru}>Русский</option>
-              </select>
-            </>
-          )}
+          <select
+            name="lang"
+            id="lang"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as Lang)}
+          >
+            <option value={Lang.uz}>O'zbek</option>
+            <option value={Lang.eng}>English</option>
+            <option value={Lang.ru}>Русский</option>
+          </select>
         </div>
       </nav>
 
       <div className="container">
         {isLoading ? (
-          <Skeleton height={100} count={7} style={{ marginBottom: "1rem" }} />
+          <Skeleton
+            height={80}
+            count={7}
+            style={{ marginBottom: "1rem" }}
+            width={"80%"}
+          />
         ) : (
           <WeatherCard data={data.forecast.forecastday} />
         )}
